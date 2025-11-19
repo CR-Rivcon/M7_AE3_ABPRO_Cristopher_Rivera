@@ -1,0 +1,26 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Lista de Estudiantes{% endblock %}
+
+{% block content %}
+    <h1>👨‍🎓 Estudiantes</h1>
+    <p style="color: #718096; margin-bottom: 30px;">Lista de todos los estudiantes registrados</p>
+    
+    {% if estudiantes %}
+        <ul class="card-list">
+            {% for estudiante in estudiantes %}
+                <li>
+                    <a href="{% url 'academico:estudiante_detail' estudiante.pk %}" style="font-size: 1.2em;">
+                        {{ estudiante.nombre }}
+                    </a>
+                    <br>
+                    <small style="color: #718096;">✉️ {{ estudiante.email }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p>📋 No hay estudiantes registrados en el sistema.</p>
+        </div>
+    {% endif %}
+{% endblock %}

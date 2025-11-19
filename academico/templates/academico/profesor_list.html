@@ -1,0 +1,26 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Lista de Profesores{% endblock %}
+
+{% block content %}
+    <h1>👨‍🏫 Profesores</h1>
+    <p style="color: #718096; margin-bottom: 30px;">Lista de todos los profesores registrados en el sistema</p>
+    
+    {% if profesores %}
+        <ul class="card-list">
+            {% for profesor in profesores %}
+                <li>
+                    <a href="{% url 'academico:profesor_detail' profesor.pk %}" style="font-size: 1.2em;">
+                        {{ profesor.nombre }}
+                    </a>
+                    <br>
+                    <small style="color: #718096;">✉️ {{ profesor.email }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p>📋 No hay profesores registrados en el sistema.</p>
+        </div>
+    {% endif %}
+{% endblock %}

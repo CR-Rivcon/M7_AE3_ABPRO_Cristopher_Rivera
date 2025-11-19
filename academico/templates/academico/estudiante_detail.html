@@ -1,0 +1,49 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Detalle de {{ estudiante.nombre }}{% endblock %}
+
+{% block content %}
+    <h1>👨‍🎓 {{ estudiante.nombre }}</h1>
+    
+    <div class="info-box">
+        <p><strong>📧 Email:</strong> {{ estudiante.email }}</p>
+    </div>
+
+    {% if estudiante.perfil %}
+        <h2>👤 Perfil</h2>
+        <div class="info-box">
+            <p><strong>📖 Biografía:</strong> {{ estudiante.perfil.biografia|default:"No disponible" }}</p>
+            <p><strong>🌐 Redes:</strong> {{ estudiante.perfil.redes|default:"No disponible" }}</p>
+        </div>
+    {% endif %}
+
+    <h2>📚 Cursos inscritos</h2>
+    {% if estudiante.inscripcion_set.all %}
+        <ul class="card-list">
+            {% for inscripcion in estudiante.inscripcion_set.all %}
+                <li>
+                    <a href="{% url 'academico:curso_detail' inscripcion.curso.pk %}" style="font-size: 1.1em;">
+                        {{ inscripcion.curso.nombre }}
+                    </a>
+                    <span class="badge badge-{% if inscripcion.estado == 'AC' %}success{% elif inscripcion.estado == 'PE' %}warning{% else %}info{% endif %}">
+                        {{ inscripcion.get_estado_display }}
+                    </span>
+                    <br>
+                    <small style="color: #718096;">
+                        📊 Nota Final: {{ inscripcion.nota_final|default:"Pendiente" }}
+                    </small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p>Este estudiante no está inscrito en ningún curso.</p>
+        </div>
+    {% endif %}
+    
+    <div style="margin-top: 30px;">
+        <a href="{% url 'academico:estudiante_list' %}" style="display: inline-block; padding: 10px 20px; background: #667eea; color: white; border-radius: 5px; text-decoration: none;">
+            ← Volver a la lista
+        </a>
+    </div>
+{% endblock %}

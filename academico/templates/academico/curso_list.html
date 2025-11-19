@@ -1,0 +1,28 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Lista de Cursos{% endblock %}
+
+{% block content %}
+    <h1>📚 Cursos</h1>
+    <p style="color: #718096; margin-bottom: 30px;">Catálogo de cursos disponibles</p>
+    
+    {% if cursos %}
+        <ul class="card-list">
+            {% for curso in cursos %}
+                <li>
+                    <a href="{% url 'academico:curso_detail' curso.pk %}" style="font-size: 1.2em;">
+                        {{ curso.nombre }}
+                    </a>
+                    <br>
+                    <small style="color: #718096;">
+                        👨‍🏫 Profesor: <a href="{% url 'academico:profesor_detail' curso.profesor.pk %}">{{ curso.profesor.nombre }}</a>
+                    </small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p>📋 No hay cursos registrados en el sistema.</p>
+        </div>
+    {% endif %}
+{% endblock %}

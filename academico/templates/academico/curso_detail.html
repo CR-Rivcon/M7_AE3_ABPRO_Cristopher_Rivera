@@ -1,0 +1,42 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Detalle de {{ curso.nombre }}{% endblock %}
+
+{% block content %}
+    <h1>📚 {{ curso.nombre }}</h1>
+    
+    <div class="info-box">
+        <p><strong>📝 Descripción:</strong> {{ curso.descripcion }}</p>
+        <p><strong>👨‍🏫 Profesor:</strong> <a href="{% url 'academico:profesor_detail' curso.profesor.pk %}">{{ curso.profesor.nombre }}</a></p>
+    </div>
+
+    <h2>👥 Estudiantes inscritos</h2>
+    {% if curso.inscripcion_set.all %}
+        <ul class="card-list">
+            {% for inscripcion in curso.inscripcion_set.all %}
+                <li>
+                    <a href="{% url 'academico:estudiante_detail' inscripcion.estudiante.pk %}" style="font-size: 1.1em;">
+                        {{ inscripcion.estudiante.nombre }}
+                    </a>
+                    <span class="badge badge-{% if inscripcion.estado == 'AC' %}success{% elif inscripcion.estado == 'PE' %}warning{% else %}info{% endif %}">
+                        {{ inscripcion.get_estado_display }}
+                    </span>
+                    <br>
+                    <small style="color: #718096;">
+                        📊 Nota Final: {{ inscripcion.nota_final|default:"Pendiente" }}
+                    </small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p>No hay estudiantes inscritos en este curso.</p>
+        </div>
+    {% endif %}
+    
+    <div style="margin-top: 30px;">
+        <a href="{% url 'academico:curso_list' %}" style="display: inline-block; padding: 10px 20px; background: #667eea; color: white; border-radius: 5px; text-decoration: none;">
+            ← Volver a la lista
+        </a>
+    </div>
+{% endblock %}

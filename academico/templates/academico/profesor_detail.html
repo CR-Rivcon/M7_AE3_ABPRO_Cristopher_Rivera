@@ -1,0 +1,36 @@
+{% extends "academico/base.html" %}
+
+{% block title %}Detalle de {{ profesor.nombre }}{% endblock %}
+
+{% block content %}
+    <h1>👨‍🏫 {{ profesor.nombre }}</h1>
+    
+    <div class="info-box">
+        <p><strong>📧 Email:</strong> {{ profesor.email }}</p>
+    </div>
+    
+    <h2>📚 Cursos que imparte</h2>
+    {% if profesor.cursos.all %}
+        <ul class="card-list">
+            {% for curso in profesor.cursos.all %}
+                <li>
+                    <a href="{% url 'academico:curso_detail' curso.pk %}" style="font-size: 1.1em;">
+                        {{ curso.nombre }}
+                    </a>
+                    <br>
+                    <small style="color: #718096;">{{ curso.descripcion|truncatewords:15 }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <p>Este profesor no imparte ningún curso actualmente.</p>
+        </div>
+    {% endif %}
+    
+    <div style="margin-top: 30px;">
+        <a href="{% url 'academico:profesor_list' %}" style="display: inline-block; padding: 10px 20px; background: #667eea; color: white; border-radius: 5px; text-decoration: none;">
+            ← Volver a la lista
+        </a>
+    </div>
+{% endblock %}
