@@ -1,5 +1,9 @@
 # Sistema de Gestión Académica 🎓
 
+
+![Home](home.png)
+
+
 Sistema web desarrollado en Django para administrar profesores, cursos y estudiantes de una institución educativa.
 
 ## Características
@@ -58,8 +62,7 @@ python manage.py runserver
 
 ## Capturas de Pantalla
 
-### Lista de Estudiantes
-![Lista de Estudiantes](screenshot.png)
+
 
 ## Estructura del Proyecto
 
